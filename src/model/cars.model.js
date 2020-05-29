@@ -12,6 +12,10 @@ module.exports = {
         //db.connect();
         db.query('CALL SP_GetAllCars()', callback);
         //db.end();
-
+    },
+    getId: (id,callback)=>{
+        //db.connect();
+        db.query(`CALL SP_GetCar(${id},@output)` , callback);
+        //db.end();
     }
 }

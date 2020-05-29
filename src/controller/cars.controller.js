@@ -30,8 +30,16 @@ module.exports = {
             res.write(JSON.stringify(createJson(results[0])))
             res.end()
         })
-    }
+    },
+    getId: (req, res, id) => {
+        res.writeHead(200, { "Content-Type": "application/json" });
+        carModel.getId(id,(err, results, fields) => {
+            if (err) throw err
 
+            res.write(JSON.stringify(createJson(results[0])))
+            res.end() 
+        })
+    } 
 }
 
 
