@@ -1,12 +1,17 @@
 "use strict";
 
 const http = require("http");
-const db = require('./config/dbConnection')
+const carsController = require('./controller/cars.controller')
 
 http
     .createServer((req, res) => {
-        res.writeHead(200, { "content-type": "text/html" });
-        res.end("<h1>Hola mundo desde node js</h1>");
+        // ? Si es una peticion de tipo GET
+        if(req.method == 'GET'){
+            // ? Se verifica a que ruta se le realiza la petición
+            if(req.url == '/api'){
+                carsController.getAll(req,res)
+            }
+        } 
     })
     .listen(3000, (err) => {
         if (err) throw err;
