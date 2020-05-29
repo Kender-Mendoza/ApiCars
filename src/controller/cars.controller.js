@@ -9,7 +9,7 @@ const carModel = require('../model/cars.model')
 function createJson(array){
     let data = {}
     array.forEach((element, index)=> {
-        data[`element${index}`] = element
+        data[`row${index}`] = element
     });
     return data
 }
