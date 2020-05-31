@@ -2,18 +2,7 @@
 
 const http = require("http");
 const carsController = require('./controller/cars.controller')
-
-//Limpiar cadena que entro
-function clearUrl(url){
-    let aux = url.substr(0,9)
-    // ? si la llamada tiene la sintaxis correcta
-    if('/api/?id=' == aux){
-        return url.substr(9,100)
-    }else{
-        // TODO : Not found 
-        return false
-    }
-}
+const um = require('./lib/usualMethod')
 
 http
     .createServer((req, res) => {
@@ -24,7 +13,7 @@ http
                 carsController.getAll(req,res)
             }else{
                 // si es true pasa
-                let id = clearUrl(req.url)
+                let id = um.clearUrl(req.url) //Limpiar cadena que entro
                 if(id){
                     carsController.getId(req,res,id)
                 } 
