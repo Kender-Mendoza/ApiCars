@@ -20,5 +20,11 @@ module.exports = {
     },
     create: (data, callback) => {
         db.query(`CALL SP_CreateCar('${data.mark}','${data.model}','${data.transmission}','${data.color}','${data.image}','${data.doors}', @output)`, callback)
+    },
+    update: (id, data, callback) => {
+        db.query(`CALL SP_UpdateCar(${id},'${data.mark}','${data.model}','${data.transmission}','${data.color}','${data.image}','${data.doors}', @output)`, callback)
+    },
+    delete: (id, callback) => {
+        db.query(`CALL SP_DeleteCar(${id},@output)`, callback);
     }
 } 

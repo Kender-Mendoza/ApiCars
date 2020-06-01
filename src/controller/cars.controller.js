@@ -27,7 +27,7 @@ module.exports = {
         })
     },
     create: (req, res) => {
-        // Los datos tienen que revisarse
+        // TODO: Los datos tienen que revisarse
         let allData = ''
         req
             .on('data', (data) => { allData += data })
@@ -45,7 +45,35 @@ module.exports = {
 
             })
             .on('error', (err) => { console.log(err) })
+    },
+    update: (req, res, id) => {
+        let allData = ''
+        req
+            .on('data', (data) => { allData += data })
+            .on('end', () => {
+                allData = JSON.parse(allData)
+
+                carModel.update(id, allData, (err) => {
+                    if (err) throw err
+
+                    res.writeHead(200, { 'Content-Type': 'text/text' })
+                    res.write('data is update')
+                    res.end()
+                })
+
+            })
+            .on('error', (err) => { console.log(err) })
+    },
+    delete: (req, res, id) => {
+        carModel.delete(id, (err) => {
+            if (err) throw err
+
+            res.writeHead(200, { 'Content-Type': 'text/text' })
+            res.write('data is delete')
+            res.end()
+        })
     }
+
 }
 
 

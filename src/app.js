@@ -18,10 +18,18 @@ http
                     carsController.getId(req, res, id)
                 }
             }
+            
         } else if (req.method == 'POST') {
             //const data = um.getData(req)
             carsController.create(req, res)
 
+        } else if (req.method == 'PUT') {
+            let id = um.clearUrl(req.url) //Limpiar cadena que entro
+            carsController.update(req, res, id)
+
+        } else if (req.method == 'DELETE') {
+            let id = um.clearUrl(req.url) //Limpiar cadena que entro
+            carsController.delete(req, res, id)
         }
     })
     .listen(3000, (err) => {
