@@ -26,5 +26,15 @@ module.exports = {
             return false
 
         }
+    },
+    getData: (req) => {
+        let allData
+
+        req
+            .on('data', (data) => { allData += data })
+            .on('end', () => { console.log(allData) })
+            .on('error', (err) => { console.log(err) })
+
+        return allData
     }
 }
