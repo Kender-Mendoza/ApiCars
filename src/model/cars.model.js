@@ -13,9 +13,12 @@ module.exports = {
         db.query('CALL SP_GetAllCars()', callback);
         //db.end();
     },
-    getId: (id,callback)=>{
+    getId: (id, callback) => {
         //db.connect();
-        db.query(`CALL SP_GetCar(${id},@output)` , callback);
+        db.query(`CALL SP_GetCar(${id},@output)`, callback);
         //db.end();
+    },
+    create: (data, callback) => {
+        db.query(`CALL SP_CreateCar('${data.mark}','${data.model}','${data.transmission}','${data.color}','${data.image}','${data.doors}', @output)`, callback)
     }
-}
+} 
