@@ -28,13 +28,24 @@ module.exports = {
         }
     },
     getData: (req) => {
-        let allData
+        let allData = ''
 
         req
             .on('data', (data) => { allData += data })
-            .on('end', () => { console.log(allData) })
+            .on('end', () => {     
+                allData = JSON.parse(allData)
+                console.log(allData) 
+
+/*                 dataObject.mark = allData.mark
+                dataObject.model = allData.model
+                dataObject.transmission = allData.transmission
+                dataObject.color = allData.color
+                dataObject.image = allData.image
+                dataObject.doors = allData.doors */
+        
+                return allData
+            })
             .on('error', (err) => { console.log(err) })
 
-        return allData
     }
 }
