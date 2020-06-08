@@ -1,6 +1,12 @@
 'use strict'
 
 module.exports = {
+    /* 
+     * MySQL - no me retorna el json en el orden esperado
+     * por esta razon cree este metodo. 
+    */
+
+    // Le da un orden adecuado al archivo Json retornado por MySQL
     createJson: (array) => {
         let data = {}
         if (array != undefined) {
@@ -15,6 +21,7 @@ module.exports = {
 
         return data
     },
+    // Limpia la URL, eliminando los caracteres innecesarios
     clearUrl: (url) => {
         let aux = url.substr(0, 9)
         // ? si la llamada tiene la sintaxis correcta
@@ -27,23 +34,16 @@ module.exports = {
 
         }
     },
-    getData: (req) => {
+    // Obtiene los datos enviados por el cliente (hace un trabajo similar a BodyParse)
+    getData: (req, callback) => {
         let allData = ''
 
         req
             .on('data', (data) => { allData += data })
-            .on('end', () => {     
+            .on('end', () => {
                 allData = JSON.parse(allData)
-                console.log(allData) 
 
-/*                 dataObject.mark = allData.mark
-                dataObject.model = allData.model
-                dataObject.transmission = allData.transmission
-                dataObject.color = allData.color
-                dataObject.image = allData.image
-                dataObject.doors = allData.doors */
-        
-                return allData
+                callback(allData)
             })
             .on('error', (err) => { console.log(err) })
 

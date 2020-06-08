@@ -4,6 +4,7 @@ const carModel = require('../model/cars.model')
 const um = require('../lib/usualMethod')
 
 module.exports = {
+    // Funcionalidad que se le daran a los datos obtenidos de la bd y poder enviarlos al cliente
     getAll: (req, res) => {
         res.writeHead(200, { "Content-Type": "application/json" });
         carModel.getAll((err, results, fields) => {
@@ -13,6 +14,7 @@ module.exports = {
             res.end()
         })
     },
+    // Funcionalidad que se le daran a los datos obtenidos de la bd y poder enviarlos al cliente
     getId: (req, res, id) => {
         res.writeHead(200, { "Content-Type": "application/json" });
         carModel.getId(id, (err, results, fields) => {
@@ -26,49 +28,37 @@ module.exports = {
             res.end()
         })
     },
+    // Funcionalidad que se le dara a los datos obtenidos del cliente para poderlos insertar
     create: (req, res) => {
-        // TODO: Los datos tienen que revisarse
-        let allData = ''
-        req
-            .on('data', (data) => { allData += data })
-            .on('end', () => {
-                allData = JSON.parse(allData)
-                console.log(allData)
+        um.getData(req, (data) => {
+            carModel.create(data, (err) => {
+                if (err) throw err
 
-                carModel.create(allData, (err) => {
-                    if (err) throw err
-
-                    res.writeHead(200, { 'Content-Type': 'text/text' })
-                    res.write('data is save')
-                    res.end()
-                })
-
+                res.writeHead(200, { 'Content-Type': 'text/plain' })
+                res.write('data is save')
+                res.end()
             })
-            .on('error', (err) => { console.log(err) })
+        })
     },
+    // Funcionalidad que se le dara a los datos obtenidos del cliente para poder actualizar uno existente
     update: (req, res, id) => {
         let allData = ''
-        req
-            .on('data', (data) => { allData += data })
-            .on('end', () => {
-                allData = JSON.parse(allData)
+        um.getData(req, (data) => {
+            carModel.update(id, data, (err) => {
+                if (err) throw err
 
-                carModel.update(id, allData, (err) => {
-                    if (err) throw err
-
-                    res.writeHead(200, { 'Content-Type': 'text/text' })
-                    res.write('data is update')
-                    res.end()
-                })
-
+                res.writeHead(200, { 'Content-Type': 'text/plain' })
+                res.write('data is update')
+                res.end()
             })
-            .on('error', (err) => { console.log(err) })
+        })
     },
+    // Funcionalidad para poder eliminar datos de la db
     delete: (req, res, id) => {
         carModel.delete(id, (err) => {
             if (err) throw err
 
-            res.writeHead(200, { 'Content-Type': 'text/text' })
+            res.writeHead(200, { 'Content-Type': 'text/plain' })
             res.write('data is delete')
             res.end()
         })
